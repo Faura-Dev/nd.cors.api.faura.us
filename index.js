@@ -47,7 +47,7 @@ cors_proxy.createServer({
   },
   // Add the handleInitialRequest option to log requests
   handleInitialRequest: (req, res, location) => {
-    console.log(`Request made from: ${req.headers.origin || 'unknown origin'} to: ${location}`);
+    // console.log(`Request made from: ${req.headers.origin || 'unknown origin'} to: ${location}`);
     return false; // Continue with the request
   },
 }).listen(port, host, function() {
