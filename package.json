@@ -25,7 +25,7 @@
     "test/",
     "Procfile",
     "demo.html",
-    "server.js"
+    "index.js"
   ],
   "dependencies": {
     "http-proxy": "1.11.1",
@@ -43,7 +43,7 @@
   "scripts": {
     "lint": "eslint .",
     "test": "mocha ./test/test*.js --reporter spec",
-    "start": "node server.js",
+    "start": "node index.js",
     "test-coverage": "istanbul cover ./node_modules/.bin/_mocha -- test/test.js test/test-ratelimit.js --reporter spec"
   },
   "engines": {

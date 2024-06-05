@@ -149,7 +149,7 @@ port 8080, use:
 ```
 export PORT=8080
 export CORSANYWHERE_WHITELIST=https://example.com,http://example.com,http://example.com:8080
-node server.js
+node index.js
 ```
 
 This application can immediately be run on Heroku, see https://devcenter.heroku.com/articles/nodejs
@@ -164,7 +164,7 @@ except for my.example.com and my2.example.com (which may be unlimited), use:
 export PORT=8080
 export CORSANYWHERE_BLACKLIST=https://abuse.example.com,http://abuse.example.com
 export CORSANYWHERE_RATELIMIT='50 3 my.example.com my2.example.com'
-node server.js
+node index.js
 ```
 
 
