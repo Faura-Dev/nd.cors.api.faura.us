@@ -23,7 +23,8 @@ var cors_proxy = require('./lib/cors-anywhere');
 cors_proxy.createServer({
   originBlacklist: originBlacklist,
   originWhitelist: originWhitelist,
-  requireHeader: ['origin', 'x-requested-with'],
+  // Comment out or remove the requireHeader option to allow requests without these headers
+  // requireHeader: ['origin', 'x-requested-with'],
   checkRateLimit: checkRateLimit,
   removeHeaders: [
     'cookie',
@@ -43,6 +44,11 @@ cors_proxy.createServer({
   httpProxyOptions: {
     // Do not add X-Forwarded-For, etc. headers, because Heroku already adds it.
     xfwd: false,
+  },
+  // Add the handleInitialRequest option to log requests
+  handleInitialRequest: (req, res, location) => {
+    console.log(`Request made from: ${req.headers.origin || 'unknown origin'} to: ${location}`);
+    return false; // Continue with the request
   },
 }).listen(port, host, function() {
   console.log('Running CORS Anywhere on ' + host + ':' + port);
