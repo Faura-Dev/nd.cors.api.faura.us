@@ -1,3 +1,11 @@
+# Development Setup
+
+1. Copy `/REPO-ROOT/.env.example` to `/REPO-ROOT/.env`.
+2. Run `yarn` to install dependencies.
+3. Run `yarn run dev` to begin dev server.
+
+# Original README.md Content from Cors-Anywhere
+
 [![Coverage Status](https://coveralls.io/repos/github/Rob--W/cors-anywhere/badge.svg?branch=master)](https://coveralls.io/github/Rob--W/cors-anywhere?branch=master)
 
 **CORS Anywhere** is a NodeJS proxy which adds CORS headers to the proxied request.

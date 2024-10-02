@@ -1,26 +1,35 @@
+require('dotenv').config();
+const createServer = require('./lib/cors-anywhere.js').createServer;
+
 // Listen on a specific host via the HOST environment variable
-var host = process.env.HOST || '0.0.0.0';
+const host = process.env.HOST || '0.0.0.0';
 // Listen on a specific port via the PORT environment variable
-var port = process.env.PORT || 8080;
+const port = process.env.PORT || 8080;
 
 // Grab the blacklist from the command-line so that we can update the blacklist without deploying
 // again. CORS Anywhere is open by design, and this blacklist is not used, except for countering
 // immediate abuse (e.g. denial of service). If you want to block all origins except for some,
 // use originWhitelist instead.
-var originBlacklist = parseEnvList(process.env.CORSANYWHERE_BLACKLIST);
-var originWhitelist = parseEnvList(process.env.CORSANYWHERE_WHITELIST);
-function parseEnvList(env) {
+function parseEnvList(env: string) {
   if (!env) {
     return [];
   }
+
+  if (env.indexOf(',') === -1) {
+    return [env];
+  }
+
   return env.split(',');
 }
 
-// Set up rate-limiting to avoid abuse of the public CORS Anywhere server.
-var checkRateLimit = require('./lib/rate-limit')(process.env.CORSANYWHERE_RATELIMIT);
+const originBlacklist = parseEnvList(process.env.CORSANYWHERE_BLACKLIST ?? '');
+const originWhitelist = parseEnvList(process.env.CORSANYWHERE_WHITELIST ?? '');
 
-var cors_proxy = require('./lib/cors-anywhere');
-cors_proxy.createServer({
+// Set up rate-limiting to avoid abuse of the public CORS Anywhere server.
+const checkRateLimit = require('./lib/rate-limit')(process.env.CORSANYWHERE_RATELIMIT);
+
+
+createServer({
   originBlacklist: originBlacklist,
   originWhitelist: originWhitelist,
   // Comment out or remove the requireHeader option to allow requests without these headers
@@ -45,11 +54,14 @@ cors_proxy.createServer({
     // Do not add X-Forwarded-For, etc. headers, because Heroku already adds it.
     xfwd: false,
   },
+
   // Add the handleInitialRequest option to log requests
-  handleInitialRequest: (req, res, location) => {
+  handleInitialRequest: (_req: unknown, _res: unknown, _location: unknown) => {
     // console.log(`Request made from: ${req.headers.origin || 'unknown origin'} to: ${location}`);
-    return false; // Continue with the request
+    // Continue with the request
+    return false;
   },
-}).listen(port, host, function() {
+
+}).listen(port, host, function () {
   console.log('Running CORS Anywhere on ' + host + ':' + port);
 });
