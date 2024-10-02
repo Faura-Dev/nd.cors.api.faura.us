@@ -4,10 +4,10 @@
 
 coverage/
 node_modules/
-dist/
 
 .env
 .env.*
 !.env.example
 
 http-client.private.env.json
+.vercel
