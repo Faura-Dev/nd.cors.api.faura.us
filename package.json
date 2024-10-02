@@ -19,13 +19,13 @@
     "proxy",
     "heroku"
   ],
-  "main": "lib/cors-anywhere.ts",
+  "main": "src/lib/cors-anywhere.ts",
   "files": [
-    "lib/",
+    "src/lib/",
     "test/",
     "Procfile",
     "demo.html",
-    "index.ts"
+    "src/index.ts"
   ],
   "dependencies": {
     "dotenv": "^16.4.5",
@@ -43,16 +43,24 @@
     "mocha": "^10.7.3",
     "nock": "^13.5.5",
     "nodemon": "^3.1.7",
+    "rimraf": "^6.0.1",
     "supertest": "^7.0.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.6.2"
   },
+  "pre-commit": [
+      "ts.check",
+      "build",
+      "add-build"
+  ],
   "scripts": {
+    "start": "nodemon src/index.ts",
+    "dev": "nodemon src/index.ts",
+    "ts.check": "tsc --project tsconfig.json",
+    "build": "rimraf dist && tsc",
+    "add-build": "git add dist",
     "lint": "eslint .",
     "test": "mocha ./test/test*.js --reporter spec",
-    "dev": "nodemon index.ts",
-    "build": "tsc",
-    "start": "node index.js",
     "test-coverage": "istanbul cover ./node_modules/.bin/_mocha -- test/test.js test/test-ratelimit.js --reporter spec"
   },
   "engines": {

@@ -1,6 +1,6 @@
 /* eslint-env mocha */
 
-var createRateLimitChecker = require('../lib/rate-limit');
+var createRateLimitChecker = require('../src/lib/rate-limit');
 
 var lolex = require('lolex');
 var assert = require('assert');
