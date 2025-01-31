@@ -19,7 +19,7 @@
     "proxy",
     "heroku"
   ],
-  "main": "src/lib/cors-anywhere.ts",
+  "main": "src/index.ts",
   "files": [
     "src/lib/",
     "test/",
@@ -27,6 +27,25 @@
     "demo.html",
     "src/index.ts"
   ],
+  "pre-commit": [
+    "ts.check",
+    "build",
+    "add-build"
+  ],
+  "scripts": {
+    "start": "nodemon src/index.ts",
+    "dev": "nodemon src/index.ts",
+    "debug": "nodemon --exec 'node --inspect=0.0.0.0:9249 --require ts-node/register src/index.ts'",
+    "ts.check": "tsc --project tsconfig.json",
+    "build": "rimraf dist && tsc",
+    "add-build": "git add dist",
+    "lint": "eslint .",
+    "test": "mocha ./test/test*.js --reporter spec",
+    "test-coverage": "istanbul cover ./node_modules/.bin/_mocha -- test/test.js test/test-ratelimit.js --reporter spec"
+  },
+  "engines": {
+    "node": "20.x"
+  },
   "dependencies": {
     "dotenv": "^16.4.5",
     "http-proxy": "^1.18.1",
@@ -42,29 +61,11 @@
     "lolex": "^1.5.0",
     "mocha": "^10.7.3",
     "nock": "^13.5.5",
-    "nodemon": "^3.1.7",
+    "nodemon": "^3.1.9",
     "pre-commit": "^1.2.2",
     "rimraf": "^6.0.1",
     "supertest": "^7.0.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.6.2"
-  },
-  "pre-commit": [
-    "ts.check",
-    "build",
-    "add-build"
-  ],
-  "scripts": {
-    "start": "nodemon src/index.ts",
-    "dev": "nodemon src/index.ts",
-    "ts.check": "tsc --project tsconfig.json",
-    "build": "rimraf dist && tsc",
-    "add-build": "git add dist",
-    "lint": "eslint .",
-    "test": "mocha ./test/test*.js --reporter spec",
-    "test-coverage": "istanbul cover ./node_modules/.bin/_mocha -- test/test.js test/test-ratelimit.js --reporter spec"
-  },
-  "engines": {
-    "node": "20.x"
   }
 }

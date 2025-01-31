@@ -1,12 +1,16 @@
 // © 2013 - 2016 Rob Wu <rob@robwu.nl>
 // Released under the MIT license
+
 const httpProxy = require('http-proxy');
 const net = require('net');
 const url = require('url');
 const regexp_tld = require('./regexp-top-level-domain');
 const getProxyForUrl = require('proxy-from-env').getProxyForUrl;
 
+const DEBUG_MODE = process.env.DEBUG;
+
 const help_text = {};
+
 function showUsage(help_file, headers, response) {
   const isHtml = /\.html$/.test(help_file);
   headers['content-type'] = isHtml ? 'text/html' : 'text/plain';
@@ -16,7 +20,9 @@ function showUsage(help_file, headers, response) {
   } else {
     require('fs').readFile(help_file, 'utf8', function(err, data) {
       if (err) {
-        console.error(err);
+        if (DEBUG_MODE) {
+          console.error(err);
+        }
         response.writeHead(500, headers);
         response.end();
       } else {
@@ -196,7 +202,8 @@ function onProxyResponse(proxy, proxyReq, proxyRes, req, res) {
           // may occur after aborting a request does not propagate to res.
           // https://github.com/nodejitsu/node-http-proxy/blob/v1.11.1/lib/http-proxy/passes/web-incoming.js#L134
           proxyReq.removeAllListeners('error');
-          proxyReq.once('error', function catchAndIgnoreError() {});
+          proxyReq.once('error', function catchAndIgnoreError() {
+          });
           proxyReq.abort();
 
           // Initiate a new proxy request.
@@ -217,13 +224,14 @@ function onProxyResponse(proxy, proxyReq, proxyRes, req, res) {
   return true;
 }
 
-
 /**
  * @param req_url {string} The requested URL (scheme is optional).
  * @return {object} URL parsed using url.parse
  */
 function parseURL(req_url) {
-  console.log(`Original request URL: ${req_url}`);
+  if (DEBUG_MODE) {
+    console.log(`Original request URL: ${req_url}`);
+  }
 
   // Regular expression to match URL components
   const regexMatcher = /^(?:(https?:)?\/\/)?(([^\/?]+?)(?::(\d{0,5})(?=[\/?]|$))?)([\/?][\S\s]*|$)/i;
@@ -233,7 +241,9 @@ function parseURL(req_url) {
   //                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   //                                            2:host
   if (!match) {
-    console.log('URL parsing failed: No match found.');
+    if (DEBUG_MODE) {
+      console.log('URL parsing failed: No match found.');
+    }
     return null;
   }
 
@@ -241,32 +251,47 @@ function parseURL(req_url) {
   let host = match[2];
   let path = match[5];
 
-  console.log(`Parsed components - Protocol: ${protocol}, Host: ${host}, Path: ${path}`);
+  if (DEBUG_MODE) {
+    console.log(`Parsed components - Protocol: ${protocol}, Host: ${host}, Path: ${path}`);
+  }
 
   // Handle missing protocol by reconstructing the URL
   if (!protocol) {
     if (match[3] === 'localhost') {
       protocol = 'http:';
-      console.log(`Protocol missing. Assuming protocol based on host (localhost): ${protocol}`);
+      if (DEBUG_MODE) {
+        console.log(`Protocol missing. Assuming protocol based on host (localhost): ${protocol}`);
+      }
     } else {
       protocol = 'https:';
-      console.log(`Protocol missing. Assuming protocol based on general rule: ${protocol}`);
+      if (DEBUG_MODE) {
+        console.log(`Protocol missing. Assuming protocol based on general rule: ${protocol}`);
+      }
     }
   }
 
   // Ensure URL is reconstructed correctly
   req_url = protocol + '//' + host + (path || '');
-  console.log(`Reconstructed URL: ${req_url}`);
+  if (DEBUG_MODE) {
+    console.log(`Reconstructed URL: ${req_url}`);
+  }
 
   const parsed = url.parse(req_url);
   if (!parsed.hostname) {
     // Handle malformed URLs
-    console.log('URL parsing failed: No hostname found.');
+    if (DEBUG_MODE) {
+      console.log('URL parsing failed: No hostname found.');
+    }
     return null;
   }
 
-  console.log(`Final parsed URL object: ${JSON.stringify(parsed)}`);
-  console.log(' ');
+  if (DEBUG_MODE) {
+    console.log(`Final parsed URL object: ${JSON.stringify(parsed)}`);
+  }
+  if (DEBUG_MODE) {
+    console.log(' ');
+  }
+
   return parsed;
 }
 
@@ -396,7 +421,7 @@ function getHandler(options, proxy) {
     }
 
     if (corsAnywhere.redirectSameOrigin && origin && location.href[origin.length] === '/' &&
-        location.href.lastIndexOf(origin, 0) === 0) {
+      location.href.lastIndexOf(origin, 0) === 0) {
       // Send a permanent redirect to offload the server. Badly coded clients should not waste our resources.
       cors_headers.vary = 'origin';
       cors_headers['cache-control'] = 'private';
@@ -443,7 +468,9 @@ exports.createServer = function createServer(options) {
 
   const proxy = httpProxy.createServer(httpProxyOptions);
   const requestHandler = getHandler(options, proxy);
+
   let server;
+
   if (options.httpsOptions) {
     server = require('https').createServer(options.httpsOptions, requestHandler);
   } else {
