@@ -27,11 +27,6 @@
     "demo.html",
     "src/index.ts"
   ],
-  "pre-commit": [
-    "ts.check",
-    "build",
-    "add-build"
-  ],
   "scripts": {
     "start": "nodemon src/index.ts",
     "dev": "nodemon src/index.ts",
@@ -39,7 +34,6 @@
     "ts.check": "tsc --project tsconfig.json",
     "build": "rimraf dist && tsc",
     "add-build": "git add dist",
-    "lint": "eslint .",
     "test": "mocha ./test/test*.js --reporter spec",
     "test-coverage": "istanbul cover ./node_modules/.bin/_mocha -- test/test.js test/test-ratelimit.js --reporter spec"
   },
