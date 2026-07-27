@@ -1,0 +1,254 @@
+{
+  "schemaVersion": 4,
+  "toolingBundleVersion": "1.12.0",
+  "selectedComponents": [
+    "eslint",
+    "prettier",
+    "node-typecheck",
+    "common-workflow",
+    "copilot-commit-message-instructions",
+    "vscode-workspace",
+    "agents-md",
+    "codex-instructions-dev-tooling",
+    "codex-command-dev-tooling-check",
+    "codex-skill-create-pr-plan-with-audit-log",
+    "codex-skill-determine-optimality",
+    "node-lint-staged",
+    "node-husky-hook",
+    "pre-commit-config",
+    "node-pre-commit"
+  ],
+  "assets": [
+    {
+      "path": "eslint.config.mjs",
+      "kind": "copy-file",
+      "mergeStrategy": "copy-only",
+      "sourceBundleVersion": "1.12.0",
+      "contentHash": "sha256:bbbed2beb30e77771eb015797b82812c77bb6dca76b726d7dbd007b86d0dd9f4",
+      "localOverridePolicy": "conflict"
+    },
+    {
+      "assetId": "eslint-dev-dependencies",
+      "path": "package.json",
+      "kind": "package-json",
+      "mergeStrategy": "package-json-managed",
+      "sourceBundleVersion": "1.12.0",
+      "structuredHash": "sha256:af482ac65cd3d14af5f8a4cb3e72d43e542ef22bc68ae17814300956305b9c65",
+      "localOverridePolicy": "conflict"
+    },
+    {
+      "assetId": "eslint-scripts",
+      "path": "package.json",
+      "kind": "package-json-scripts",
+      "mergeStrategy": "package-json-scripts",
+      "sourceBundleVersion": "1.12.0",
+      "structuredHash": "sha256:f85e254185472f30d878d06e0c243c491500f80724562130bf9fc34fe7d0e7a4",
+      "localOverridePolicy": "conflict"
+    },
+    {
+      "path": ".prettierrc",
+      "kind": "copy-file",
+      "mergeStrategy": "copy-only",
+      "sourceBundleVersion": "1.12.0",
+      "contentHash": "sha256:4749aeceaf5f420807bffa27461ba50257737964199094176df4ce887aa6d659",
+      "localOverridePolicy": "conflict"
+    },
+    {
+      "path": ".prettierignore",
+      "kind": "copy-file",
+      "mergeStrategy": "copy-only",
+      "sourceBundleVersion": "1.12.0",
+      "contentHash": "sha256:a4f0e5bba41a83ad4cb779df59c47d3282c2fbf38c4cd063031325debf374bb6",
+      "localOverridePolicy": "conflict"
+    },
+    {
+      "assetId": "prettier-dev-dependencies",
+      "path": "package.json",
+      "kind": "package-json",
+      "mergeStrategy": "package-json-managed",
+      "sourceBundleVersion": "1.12.0",
+      "structuredHash": "sha256:06857d5bfcdf52d5b40be9feb679206ec630eea5f97ce366b3734deacad8d44e",
+      "localOverridePolicy": "conflict"
+    },
+    {
+      "assetId": "node-typecheck-scripts",
+      "path": "package.json",
+      "kind": "package-json-scripts",
+      "mergeStrategy": "package-json-scripts",
+      "sourceBundleVersion": "1.12.0",
+      "structuredHash": "sha256:2f51ae70a3a8c4b5f6772984dcbf12fa7b14e036f8a0dd539ae61102203b80c3",
+      "localOverridePolicy": "conflict"
+    },
+    {
+      "path": ".github/workflows/dev-tooling.yml",
+      "kind": "yaml-file",
+      "mergeStrategy": "structured-yaml",
+      "sourceBundleVersion": "1.12.0",
+      "structuredHash": "sha256:dd22e02d7ebf718e2f1cc8db890bc8e61ed8436dd31950b3f067b0dda432470f",
+      "localOverridePolicy": "conflict"
+    },
+    {
+      "path": ".github/copilot-commit-message-instructions.md",
+      "kind": "copy-file",
+      "mergeStrategy": "copy-only",
+      "sourceBundleVersion": "1.12.0",
+      "contentHash": "sha256:0d1a299ca5f03c509ffcb7e62e12ebe9abcb5eb8e45aa4e2c9104e458708873f",
+      "localOverridePolicy": "conflict"
+    },
+    {
+      "path": "dev-tooling.code-workspace",
+      "kind": "vscode-workspace",
+      "mergeStrategy": "vscode-workspace",
+      "sourceBundleVersion": "1.12.0",
+      "structuredHash": "sha256:fba7bed5d3e5f181cf7fbb25eb2244f1879e341d8e1642ee260fca841dfa5617",
+      "localOverridePolicy": "conflict"
+    },
+    {
+      "path": "AGENTS.md",
+      "kind": "ai-agent-asset",
+      "mergeStrategy": "agent-guidance-block",
+      "sourceBundleVersion": "1.12.0",
+      "structuredHash": "sha256:4cbd48be9d2c37274a7bdcba85b5f4bda4173257dcbe2df5be0a8b50d8ec49b8",
+      "localOverridePolicy": "conflict"
+    },
+    {
+      "path": ".agents/instructions/dev-tooling.md",
+      "kind": "ai-agent-asset",
+      "mergeStrategy": "copy-only",
+      "sourceBundleVersion": "1.12.0",
+      "contentHash": "sha256:376e40e0a936c5290e847526bd209d141fa0219a6b0ba797b4fa270f9196fb42",
+      "localOverridePolicy": "conflict"
+    },
+    {
+      "path": ".agents/commands/dev-tooling-check.md",
+      "kind": "ai-agent-asset",
+      "mergeStrategy": "copy-only",
+      "sourceBundleVersion": "1.12.0",
+      "contentHash": "sha256:f32250d8daba30674d1d16343a133b73e39d4189241eee1cac5440f0ede5d410",
+      "localOverridePolicy": "conflict"
+    },
+    {
+      "path": ".agents/skills/create-pr-plan-with-audit-log/SKILL.md",
+      "kind": "ai-agent-asset",
+      "mergeStrategy": "copy-only",
+      "sourceBundleVersion": "1.12.0",
+      "contentHash": "sha256:290074c35e5af9e0cd9cb00f74a3411c8c7f7ca311b333b3701e7bb17921079b",
+      "localOverridePolicy": "conflict"
+    },
+    {
+      "path": ".agents/skills/create-pr-plan-with-audit-log/references/workflow.md",
+      "kind": "ai-agent-asset",
+      "mergeStrategy": "copy-only",
+      "sourceBundleVersion": "1.12.0",
+      "contentHash": "sha256:3e222240da6b393d89b864bd92f0e5858a9dfcf45895ef39dd1413015b4cd7f8",
+      "localOverridePolicy": "conflict"
+    },
+    {
+      "path": ".agents/skills/create-pr-plan-with-audit-log/agents/openai.yaml",
+      "kind": "ai-agent-asset",
+      "mergeStrategy": "copy-only",
+      "sourceBundleVersion": "1.12.0",
+      "contentHash": "sha256:c2a61c842951b1bc1e99c6feb4d30a58c8a216fce67923c3d5be2dcf798ffe73",
+      "localOverridePolicy": "conflict"
+    },
+    {
+      "path": ".agents/skills/determine-optimality/SKILL.md",
+      "kind": "ai-agent-asset",
+      "mergeStrategy": "copy-only",
+      "sourceBundleVersion": "1.12.0",
+      "contentHash": "sha256:409b4954140e250c043ac0057ba6f28fa1cffd26e5829d1ca37893c17a95ba7b",
+      "localOverridePolicy": "conflict"
+    },
+    {
+      "path": ".agents/skills/determine-optimality/references/optimal.md",
+      "kind": "ai-agent-asset",
+      "mergeStrategy": "copy-only",
+      "sourceBundleVersion": "1.12.0",
+      "contentHash": "sha256:41aa24d5b33398fe247a1296152635d2720bd0c36512a52b72b529a878136876",
+      "localOverridePolicy": "conflict"
+    },
+    {
+      "path": ".agents/skills/determine-optimality/agents/openai.yaml",
+      "kind": "ai-agent-asset",
+      "mergeStrategy": "copy-only",
+      "sourceBundleVersion": "1.12.0",
+      "contentHash": "sha256:dae4d28a1566a1451adf20e4e1d0e2d850c8441679bd3dfda2f8c4f8a3a24958",
+      "localOverridePolicy": "conflict"
+    },
+    {
+      "path": ".agents/skills/determine-optimality/scripts/log-skill-invocation.cjs",
+      "kind": "ai-agent-asset",
+      "mergeStrategy": "copy-only",
+      "sourceBundleVersion": "1.12.0",
+      "contentHash": "sha256:77741ac4f34fb36c90b667e07ca7563827037459fab69fe9ec8cf53fed7c7ab9",
+      "localOverridePolicy": "conflict"
+    },
+    {
+      "path": ".lintstagedrc.json",
+      "kind": "copy-file",
+      "mergeStrategy": "copy-only",
+      "sourceBundleVersion": "1.12.0",
+      "contentHash": "sha256:e37f85c27a46acb946ce12ce7b25d922ec43d45571d20ab94d2a39a119164969",
+      "localOverridePolicy": "conflict"
+    },
+    {
+      "assetId": "node-lint-staged-dev-dependencies",
+      "path": "package.json",
+      "kind": "package-json",
+      "mergeStrategy": "package-json-managed",
+      "sourceBundleVersion": "1.12.0",
+      "structuredHash": "sha256:bbb6e6b9c911df5c7771f1145f1cee73f3af77900fc6682444b6ca52941ee87d",
+      "localOverridePolicy": "conflict"
+    },
+    {
+      "path": ".husky/pre-commit",
+      "kind": "copy-file",
+      "mergeStrategy": "copy-only",
+      "sourceBundleVersion": "1.12.0",
+      "contentHash": "sha256:45620037fc6f571c54f073110d9f3eef0206b8f853d9e9dbcb5e6422b088c096",
+      "localOverridePolicy": "conflict"
+    },
+    {
+      "path": ".husky/.gitignore",
+      "kind": "copy-file",
+      "mergeStrategy": "copy-only",
+      "sourceBundleVersion": "1.12.0",
+      "contentHash": "sha256:4415b7e361fc6f6ba2492adef1f27cfb00d0105e4588177470cecc4214b35284",
+      "localOverridePolicy": "conflict"
+    },
+    {
+      "assetId": "node-husky-dev-dependencies",
+      "path": "package.json",
+      "kind": "package-json",
+      "mergeStrategy": "package-json-managed",
+      "sourceBundleVersion": "1.12.0",
+      "structuredHash": "sha256:4a16496acb14a7c2ef86c58b33ed1598d5d957da518a2a8f498da57af6c1bce9",
+      "localOverridePolicy": "conflict"
+    },
+    {
+      "assetId": "node-husky-scripts",
+      "path": "package.json",
+      "kind": "package-json-scripts",
+      "mergeStrategy": "package-json-scripts",
+      "sourceBundleVersion": "1.12.0",
+      "structuredHash": "sha256:a6d1a236237c43993695ff95af6f275f0bfa44d04e5835a64de630eda56beb9e",
+      "localOverridePolicy": "conflict"
+    },
+    {
+      "path": ".pre-commit-config.yaml",
+      "kind": "copy-file",
+      "mergeStrategy": "copy-only",
+      "sourceBundleVersion": "1.12.0",
+      "contentHash": "sha256:d6b7c029026bcabf35da9b46f76037a2f241eb7ac9cfea51462f1e768281d636",
+      "localOverridePolicy": "conflict"
+    },
+    {
+      "path": ".secrets.baseline",
+      "kind": "copy-file",
+      "mergeStrategy": "copy-only",
+      "sourceBundleVersion": "1.12.0",
+      "contentHash": "sha256:8b29c2874ff3e1b4ec4346a02866020e61387baded8a9b0d0066b1b62a865917",
+      "localOverridePolicy": "conflict"
+    }
+  ]
+}

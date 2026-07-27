@@ -1,0 +1,39 @@
+minimum_pre_commit_version: "4.4.0"
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: trailing-whitespace
+        exclude: \.(svg|sh|yaml|yml|jpg|jpeg|pdf|husky|xml|sql)$
+      - id: end-of-file-fixer
+        exclude: \.(svg|sh|yaml|yml|jpg|jpeg|pdf|husky|xml|sql)$
+      - id: check-yaml
+      - id: check-added-large-files
+      - id: no-commit-to-branch
+        args:
+          - --branch
+          - main
+          - --pattern
+          - release/.*
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.5.0
+    hooks:
+      - id: detect-secrets
+        args:
+          - --baseline
+          - .secrets.baseline
+        exclude: yarn.lock
+  - repo: local
+    hooks:
+      - id: npm-lint-quiet
+        name: npm lint quiet
+        entry: npm run lint-quiet
+        language: unsupported
+        types: [file]
+        pass_filenames: false
+      - id: typescript-no-emit
+        name: TypeScript no emit
+        entry: npm run typecheck
+        language: unsupported
+        types: [file]
+        pass_filenames: false
