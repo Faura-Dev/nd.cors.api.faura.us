@@ -1,8 +1,31 @@
 # Development Setup
 
 1. Copy `/REPO-ROOT/.env.example` to `/REPO-ROOT/.env`.
-2. Run `yarn` to install dependencies.
-3. Run `yarn run dev` to begin dev server.
+2. Set `CORSANYWHERE_WHITELIST` to the approved browser origins.
+3. Set `CORSANYWHERE_DESTINATION_WHITELIST` to the approved destination hosts.
+4. Run `yarn` to install dependencies.
+5. Run `yarn run dev` to begin dev server.
+
+# Faura Deployment Security Model
+
+This deployment is not intended to operate as a public CORS proxy. The deployed entrypoint fails closed unless both allowlists are configured:
+
+```sh
+CORSANYWHERE_WHITELIST=https://app.example.com
+CORSANYWHERE_DESTINATION_WHITELIST=https://maps.googleapis.com
+```
+
+`CORSANYWHERE_WHITELIST` contains exact browser origins that may use the proxy. When this list is configured, CORS responses reflect only the approved request origin and include `Vary: Origin`; denied or missing origins do not receive wildcard CORS headers.
+
+`CORSANYWHERE_DESTINATION_WHITELIST` contains exact destination hosts with optional scheme and port constraints. Examples:
+
+```text
+maps.googleapis.com
+https://maps.googleapis.com
+https://maps.googleapis.com:443
+```
+
+Destination allowlisting is the request-forgery boundary. The proxy also blocks private, loopback, link-local, multicast, reserved, and other non-public IP ranges for literal IP destinations and DNS results, including internally followed redirects.
 
 # Original README.md Content from Cors-Anywhere
 
@@ -99,10 +122,10 @@ proxy requests. The following options are supported:
 * function `getProxyForUrl` - If set, specifies which intermediate proxy to use for a given URL.
   If the return value is void, a direct request is sent. The default implementation is
   [`proxy-from-env`](https://github.com/Rob--W/proxy-from-env), which respects the standard proxy
-  environment variables (e.g. `https_proxy`, `no_proxy`, etc.).  
-* array of strings `originBlacklist` - If set, requests whose origin is listed are blocked.  
+  environment variables (e.g. `https_proxy`, `no_proxy`, etc.).
+* array of strings `originBlacklist` - If set, requests whose origin is listed are blocked.
   Example: `['https://bad.example.com', 'http://bad.example.com']`
-* array of strings `originWhitelist` - If set, requests whose origin is not listed are blocked.  
+* array of strings `originWhitelist` - If set, requests whose origin is not listed are blocked.
   If this list is empty, all origins are allowed.
   Example: `['https://good.example.com', 'http://good.example.com']`
 * function `handleInitialRequest` - If set, it is called with the request, response and a parsed
@@ -114,16 +137,16 @@ proxy requests. The following options are supported:
 * boolean `redirectSameOrigin` - If true, requests to URLs from the same origin will not be proxied but redirected.
   The primary purpose for this option is to save server resources by delegating the request to the client
   (since same-origin requests should always succeed, even without proxying).
-* array of strings `requireHeader` - If set, the request must include this header or the API will refuse to proxy.  
-  Recommended if you want to prevent users from using the proxy for normal browsing.  
+* array of strings `requireHeader` - If set, the request must include this header or the API will refuse to proxy.
+  Recommended if you want to prevent users from using the proxy for normal browsing.
   Example: `['Origin', 'X-Requested-With']`.
-* array of lowercase strings `removeHeaders` - Exclude certain headers from being included in the request.  
+* array of lowercase strings `removeHeaders` - Exclude certain headers from being included in the request.
   Example: `["cookie"]`
-* dictionary of lowercase strings `setHeaders` - Set headers for the request (overwrites existing ones).  
+* dictionary of lowercase strings `setHeaders` - Set headers for the request (overwrites existing ones).
   Example: `{"x-powered-by": "CORS Anywhere"}`
-* number `corsMaxAge` - If set, an Access-Control-Max-Age request header with this value (in seconds) will be added.  
+* number `corsMaxAge` - If set, an Access-Control-Max-Age request header with this value (in seconds) will be added.
   Example: `600` - Allow CORS preflight request to be cached by the browser for 10 minutes.
-* string `helpFile` - Set the help file (shown at the homepage).  
+* string `helpFile` - Set the help file (shown at the homepage).
   Example: `"myCustomHelpText.txt"`
 
 For advanced users, the following options are also provided.
