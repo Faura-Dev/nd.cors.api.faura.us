@@ -711,7 +711,8 @@ function validateAndProxyRequest(req, res, proxy) {
  * @param proxy {HttpProxy}
  */
 function proxyRequest(req, res, proxy) {
-	const location = req.corsAnywhereRequestState.location;
+	const requestState = req.corsAnywhereRequestState;
+	const location = requestState.location;
 	req.url = location.path;
 
 	const proxyOptions = {
@@ -770,19 +771,30 @@ function proxyRequest(req, res, proxy) {
 		location.href,
 	);
 	if (proxyThroughUrl) {
+		if (requestState.destinationWhitelist != null) {
+			rejectRequest(
+				req,
+				res,
+				createDestinationError(
+					'Outbound proxy routing is not allowed when destination validation is enabled.',
+				),
+			);
+			return;
+		}
+
 		proxyOptions.target = proxyThroughUrl;
 		proxyOptions.toProxy = true;
 		// If a proxy URL was set, req.url must be an absolute URL. Then the request will not be sent
 		// directly to the proxied URL, but through another proxy.
 		req.url = location.href;
-	} else if (req.corsAnywhereRequestState.validatedLookup) {
+	} else if (requestState.validatedLookup) {
 		proxyOptions.agent =
 			location.protocol === 'https:'
 				? new https.Agent({
-						lookup: req.corsAnywhereRequestState.validatedLookup,
+						lookup: requestState.validatedLookup,
 					})
 				: new http.Agent({
-						lookup: req.corsAnywhereRequestState.validatedLookup,
+						lookup: requestState.validatedLookup,
 					});
 	}
 

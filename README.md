@@ -27,6 +27,8 @@ https://maps.googleapis.com:443
 
 Destination allowlisting is the request-forgery boundary. The proxy also blocks private, loopback, link-local, multicast, reserved, and other non-public IP ranges for literal IP destinations and DNS results, including internally followed redirects.
 
+When destination allowlisting is enabled, requests are not routed through an outbound intermediary proxy from `getProxyForUrl`, `HTTP_PROXY`, or `HTTPS_PROXY`. Allowing an intermediary proxy would move final destination DNS resolution outside the validated DNS boundary.
+
 # Original README.md Content from Cors-Anywhere
 
 [![Coverage Status](https://coveralls.io/repos/github/Rob--W/cors-anywhere/badge.svg?branch=master)](https://coveralls.io/github/Rob--W/cors-anywhere?branch=master)

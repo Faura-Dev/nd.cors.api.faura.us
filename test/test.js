@@ -1012,6 +1012,48 @@ describe('destinationWhitelist', function () {
 			);
 	});
 
+	it('GET /http://example.com rejects outbound proxy routing after destination validation', function (done) {
+		var proxyHits = 0;
+		var proxy_server = http.createServer(function (req, res) {
+			proxyHits += 1;
+			res.end('Unexpected outbound proxy request: ' + req.url);
+		});
+
+		proxy_server.listen(0, function () {
+			var proxy_url = 'http://127.0.0.1:' + proxy_server.address().port;
+
+			cors_anywhere = createServer({
+				destinationWhitelist: ['http://example.com'],
+				destinationLookup: publicLookup,
+				getProxyForUrl: function () {
+					return proxy_url;
+				},
+			});
+			cors_anywhere_port = cors_anywhere.listen(0).address().port;
+
+			request(cors_anywhere)
+				.get('/http://example.com/')
+				.expect('Access-Control-Allow-Origin', '*')
+				.expect(
+					403,
+					'Outbound proxy routing is not allowed when destination validation is enabled.',
+					function (err) {
+						proxy_server.close(function (closeErr) {
+							if (!err) {
+								try {
+									assert.equal(proxyHits, 0);
+								} catch (assertErr) {
+									err = assertErr;
+								}
+							}
+
+							done(err || closeErr);
+						});
+					},
+				);
+		});
+	});
+
 	it('GET with redirect to permitted destination should be followed', function (done) {
 		cors_anywhere = createServer({
 			destinationWhitelist: ['http://example.com'],
@@ -1029,6 +1071,55 @@ describe('destinationWhitelist', function () {
 			)
 			.expect('x-final-url', 'http://example.com/redirecttarget')
 			.expect(200, 'redirect target', done);
+	});
+
+	it('GET with redirect rejects outbound proxy routing after destination validation', function (done) {
+		var proxyHits = 0;
+		var proxy_server = http.createServer(function (req, res) {
+			proxyHits += 1;
+			res.end('Unexpected outbound proxy request: ' + req.url);
+		});
+
+		proxy_server.listen(0, function () {
+			var proxy_url = 'http://127.0.0.1:' + proxy_server.address().port;
+
+			cors_anywhere = createServer({
+				destinationWhitelist: ['http://example.com'],
+				destinationLookup: publicLookup,
+				getProxyForUrl: function (requestedUrl) {
+					return requestedUrl.indexOf('/redirecttarget') === -1
+						? ''
+						: proxy_url;
+				},
+			});
+			cors_anywhere_port = cors_anywhere.listen(0).address().port;
+
+			request(cors_anywhere)
+				.get('/http://example.com/redirect')
+				.redirects(0)
+				.expect('Access-Control-Allow-Origin', '*')
+				.expect(
+					'x-cors-redirect-1',
+					'302 http://example.com/redirecttarget',
+				)
+				.expect(
+					403,
+					'Outbound proxy routing is not allowed when destination validation is enabled.',
+					function (err) {
+						proxy_server.close(function (closeErr) {
+							if (!err) {
+								try {
+									assert.equal(proxyHits, 0);
+								} catch (assertErr) {
+									err = assertErr;
+								}
+							}
+
+							done(err || closeErr);
+						});
+					},
+				);
+		});
 	});
 
 	it('GET with redirect to denied destination should be blocked', function (done) {
