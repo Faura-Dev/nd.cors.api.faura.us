@@ -43,6 +43,7 @@ const BLOCKED_IPV4_RANGES = [
 
 const BLOCKED_IPV6_PREFIXES = [
 	['64:ff9b::', 96],
+	['64:ff9b:1::', 48],
 	['100::', 64],
 	['2001::', 23],
 	['2001:2::', 48],

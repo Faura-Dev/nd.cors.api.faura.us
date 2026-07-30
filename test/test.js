@@ -974,6 +974,23 @@ describe('destinationWhitelist', function () {
 			);
 	});
 
+	it('GET /http://[64:ff9b:1::a00:1] rejects local-use NAT64 IPv6 literal', function (done) {
+		cors_anywhere = createServer({
+			destinationWhitelist: ['http://[64:ff9b:1::a00:1]'],
+			destinationLookup: publicLookup,
+		});
+		cors_anywhere_port = cors_anywhere.listen(0).address().port;
+
+		request(cors_anywhere)
+			.get('/http://[64:ff9b:1::a00:1]/')
+			.expect('Access-Control-Allow-Origin', '*')
+			.expect(
+				403,
+				'Destination address is not allowed by this proxy.',
+				done,
+			);
+	});
+
 	it('GET /http://example.com rejects unsafe DNS result', function (done) {
 		cors_anywhere = createServer({
 			destinationWhitelist: ['http://example.com'],
@@ -998,6 +1015,25 @@ describe('destinationWhitelist', function () {
 			destinationWhitelist: ['http://example.com'],
 			destinationLookup: createLookup({
 				'example.com': ['fec0::1'],
+			}),
+		});
+		cors_anywhere_port = cors_anywhere.listen(0).address().port;
+
+		request(cors_anywhere)
+			.get('/http://example.com/')
+			.expect('Access-Control-Allow-Origin', '*')
+			.expect(
+				403,
+				'Destination address is not allowed by this proxy.',
+				done,
+			);
+	});
+
+	it('GET /http://example.com rejects local-use NAT64 IPv6 DNS result', function (done) {
+		cors_anywhere = createServer({
+			destinationWhitelist: ['http://example.com'],
+			destinationLookup: createLookup({
+				'example.com': ['64:ff9b:1::a00:1'],
 			}),
 		});
 		cors_anywhere_port = cors_anywhere.listen(0).address().port;
