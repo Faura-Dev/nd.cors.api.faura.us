@@ -1,0 +1,36 @@
+{
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    "files.insertFinalNewline": true,
+    "files.trimTrailingWhitespace": true,
+    "github.copilot.chat.commitMessageGeneration.instructions": [
+      {
+        "file": ".github/copilot-commit-message-instructions.md"
+      }
+    ]
+  },
+  "tasks": {
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "dev-tooling: check",
+        "type": "shell",
+        "command": "npm exec --yes --package=@faura-dev/dev-tooling@1.12.0 -- dev-tooling check",
+        "problemMatcher": []
+      },
+      {
+        "label": "dev-tooling: diff",
+        "type": "shell",
+        "command": "npm exec --yes --package=@faura-dev/dev-tooling@1.12.0 -- dev-tooling diff",
+        "problemMatcher": []
+      }
+    ]
+  },
+  "launch": {
+    "configurations": []
+  }
+}

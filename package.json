@@ -1,71 +1,77 @@
 {
-  "name": "cors-anywhere",
-  "version": "0.4.4",
-  "description": "CORS Anywhere is a reverse proxy which adds CORS headers to the proxied request. Request URL is taken from the path",
-  "license": "MIT",
-  "author": "Rob Wu <rob@robwu.nl>",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Rob--W/cors-anywhere.git"
-  },
-  "bugs": {
-    "url": "https://github.com/Rob--W/cors-anywhere/issues/",
-    "email": "rob@robwu.nl"
-  },
-  "keywords": [
-    "cors",
-    "cross-domain",
-    "http-proxy",
-    "proxy",
-    "heroku"
-  ],
-  "main": "src/index.ts",
-  "files": [
-    "src/lib/",
-    "test/",
-    "Procfile",
-    "demo.html",
-    "src/index.ts"
-  ],
-  "pre-commit": [
-    "ts.check",
-    "build",
-    "add-build"
-  ],
-  "scripts": {
-    "start": "nodemon src/index.ts",
-    "dev": "nodemon src/index.ts",
-    "debug": "nodemon --exec 'node --inspect=0.0.0.0:9249 --require ts-node/register src/index.ts'",
-    "ts.check": "tsc --project tsconfig.json",
-    "build": "rimraf dist && tsc",
-    "add-build": "git add dist",
-    "lint": "eslint .",
-    "test": "mocha ./test/test*.js --reporter spec",
-    "test-coverage": "istanbul cover ./node_modules/.bin/_mocha -- test/test.js test/test-ratelimit.js --reporter spec"
-  },
-  "engines": {
-    "node": "20.x"
-  },
-  "dependencies": {
-    "dotenv": "^16.4.5",
-    "http-proxy": "^1.18.1",
-    "proxy-from-env": "0.0.1"
-  },
-  "devDependencies": {
-    "@types/dotenv": "^8.2.0",
-    "@types/http-proxy": "^1.17.15",
-    "@types/proxy-from-env": "^1.0.4",
-    "coveralls": "^3.1.1",
-    "eslint": "^9.11.1",
-    "istanbul": "^0.4.2",
-    "lolex": "^1.5.0",
-    "mocha": "^10.7.3",
-    "nock": "^13.5.5",
-    "nodemon": "^3.1.9",
-    "pre-commit": "^1.2.2",
-    "rimraf": "^6.0.1",
-    "supertest": "^7.0.0",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.6.2"
-  }
+	"name": "cors-anywhere",
+	"version": "0.4.4",
+	"description": "CORS Anywhere is a reverse proxy which adds CORS headers to the proxied request. Request URL is taken from the path",
+	"license": "MIT",
+	"author": "Rob Wu <rob@robwu.nl>",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Rob--W/cors-anywhere.git"
+	},
+	"bugs": {
+		"url": "https://github.com/Rob--W/cors-anywhere/issues/",
+		"email": "rob@robwu.nl"
+	},
+	"keywords": [
+		"cors",
+		"cross-domain",
+		"http-proxy",
+		"proxy",
+		"heroku"
+	],
+	"main": "src/lib/cors-anywhere.js",
+	"files": [
+		"src/lib/",
+		"test/",
+		"Procfile",
+		"demo.html",
+		"src/index.ts"
+	],
+	"scripts": {
+		"start": "nodemon src/index.ts",
+		"dev": "nodemon src/index.ts",
+		"debug": "nodemon --exec 'node --inspect=0.0.0.0:9249 --require ts-node/register src/index.ts'",
+		"ts.check": "tsc --project tsconfig.json",
+		"build": "rimraf dist && tsc && node -e \"require('fs').mkdirSync('dist/lib',{recursive:true});require('fs').copyFileSync('src/lib/help.txt','dist/lib/help.txt')\"",
+		"add-build": "git add dist",
+		"test": "mocha ./test/test*.js --reporter spec",
+		"test-coverage": "istanbul cover ./node_modules/.bin/_mocha -- test/test.js test/test-ratelimit.js --reporter spec",
+		"lint": "npm run lint-quiet",
+		"lint-quiet": "eslint . --quiet",
+		"typecheck": "tsc --noEmit",
+		"prepare": "husky"
+	},
+	"engines": {
+		"node": "20.x"
+	},
+	"dependencies": {
+		"dotenv": "^16.4.5",
+		"http-proxy": "^1.18.1",
+		"proxy-from-env": "0.0.1"
+	},
+	"devDependencies": {
+		"@types/dotenv": "^8.2.0",
+		"@types/http-proxy": "^1.17.15",
+		"@types/proxy-from-env": "^1.0.4",
+		"coveralls": "^3.1.1",
+		"istanbul": "^0.4.2",
+		"lolex": "^1.5.0",
+		"mocha": "^10.7.3",
+		"nock": "^13.5.5",
+		"nodemon": "^3.1.9",
+		"pre-commit": "^1.2.2",
+		"rimraf": "^6.0.1",
+		"supertest": "^7.0.0",
+		"ts-node": "^10.9.2",
+		"typescript": "^5.6.2",
+		"@typescript-eslint/eslint-plugin": "8.60.1",
+		"@typescript-eslint/parser": "8.60.1",
+		"eslint": "9.39.3",
+		"eslint-import-resolver-alias": "1.1.2",
+		"eslint-import-resolver-typescript": "4.4.5",
+		"eslint-plugin-import": "2.32.0",
+		"prettier": "3.8.3",
+		"lint-staged": "16.1.2",
+		"husky": "9.1.7"
+	}
 }

@@ -1,0 +1,9 @@
+set -e
+
+npx lint-staged
+
+if [ -f .pre-commit-config.yaml ] && command -v pre-commit >/dev/null 2>&1; then
+  pre-commit run --hook-stage pre-commit --show-diff-on-failure
+else
+  printf '%s\n' "pre-commit config or executable not found; skipping .pre-commit-config.yaml hooks." >&2
+fi
